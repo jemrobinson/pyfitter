@@ -1,2 +1,4 @@
-# pyfitter
+pyfitter
+========
+
 Data fitting with python
