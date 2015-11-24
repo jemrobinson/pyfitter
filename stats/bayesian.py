@@ -14,7 +14,7 @@ def _error( value ) :
   '''Construct Bayesian errors using Poisson distribution'''
   # likelihood = P(value|lambda) using underlying Poisson assumption
   # error: lambdas with equal likelihood for which area in between is 68%
-  lambda_up, lambda_down, step_size = value, value, float(value)/10
+  lambda_up, lambda_down, step_size = 1.1*value, 0.9*value, float(value)/10
   for i in range(5) :
     lambda_up -= step_size; lambda_down += step_size; step_size /= 10
     while (poisson.cdf(value,lambda_down) - poisson.cdf(value,lambda_up)) < 0.6826894921370859 :

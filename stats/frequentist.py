@@ -9,10 +9,10 @@ def error( values ) :
 
 def _error( value ) :
   '''Construct frequentist errors using Poisson distribution'''
-  # up error: smallest lambda for which P(n<=nobs|lambda) < (1-0.682689492137085897170465091264075844955825933453208781974788)/2 = 158655253931457051414767454367962077522087033273395609012605
-  # down error: largest lambda for which P(n>=nobs|lambda) < (1-0.682689492137085897170465091264075844955825933453208781974788)/2 = 158655253931457051414767454367962077522087033273395609012605
-  lambda_up, lambda_down, step_size = value, value, float(value)/10
-  if value == 0 : lambda_up, lambda_down, step_size = 1e-10, 0, 1e-3
+  # up error: smallest lambda for which P(n<=nobs|lambda) < (1-0.68268...)/2 = 0.15865...
+  # down error: largest lambda for which P(n>=nobs|lambda) < (1-0.68268...)/2 = 0.15865...
+  lambda_up, lambda_down, step_size = 1.1*value, 0.9*value, float(value)/10
+  if value < 1 : lambda_up, lambda_down, step_size =  1.8, 0.0, 0.1
   for i in range(5) :
     lambda_up -= step_size; lambda_down += step_size; step_size /= 10
     while poisson.cdf( value, lambda_up ) > 0.15865525393145705 : lambda_up += step_size
