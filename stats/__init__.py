@@ -1,4 +1,4 @@
 # poisson spread for fixed lambda
-# likelihood ratio
-# bayesian
+from loglikelihood import *
+from bayesian import *
 from frequentist import *
