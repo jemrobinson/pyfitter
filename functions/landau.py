@@ -2,18 +2,21 @@ from base_function import BaseFunction
 import math
 
 class Landau(BaseFunction) :
-  def __init__( self, **kwargs ) :
+  def __init__( self, mpv=0, sigma=1, scale=1 ) :
     super(Landau, self).__init__()
-    self.mpv = kwargs.get('mpv',0)
-    self.sigma = kwargs.get('sigma',1)
-    self.scale = kwargs.get('scale',1)
+    self.mpv = mpv
+    self.sigma = sigma
+    self.scale =  scale
     self.interpolation_range = [ (2*self.mpv,-6*self.mpv), (0,8*self.mpv) ][self.mpv>0]
 
 
-  def at( self, x ) :
-    # return self.scale * math.exp( -(x-self.mpv)**2 / self.sigma )
-    if self.sigma <= 0 : return 0
-    lf = (x-self.mpv)/self.sigma
+  def at( self, x, mpv=None, sigma=None, scale=None ) :
+    # return scale * math.exp( -(x-mpv)**2 / sigma )
+    if mpv is None : mpv = self.mpv
+    if sigma is None : sigma = self.sigma
+    if scale is None : scale = self.scale
+    if sigma <= 0 : return 0
+    lf = (x-mpv)/sigma
     p1=(0.4259894875,-0.1249762550,0.03984243700,-0.006298287635,0.001511162253)
     q1=(1.0,-0.3388260629,0.09594393323,-0.01608042283,0.003778942063)
     p2=(0.1788541609,0.1173957403,0.01488850518,-0.001394989411,0.0001283617211)
@@ -53,4 +56,4 @@ class Landau(BaseFunction) :
     else :
       u   = 1/(lf-lf*math.log(lf)/(lf+1))
       output = u*u*(1+(a2[0]+a2[1]*u)*u)
-    return self.scale * output
+    return scale * output

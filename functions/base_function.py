@@ -5,13 +5,16 @@ class BaseFunction(object) :
   '''Function which can be evaluated at a point or operate on an array'''
   def __init__( self ) :
     self.inv_cdf = None
-    self.interpolation_range = (0,1)
+    self.interpolation_range = None
+
 
   def at( self, value, **kwargs ) :
     raise NotImplementedError('Should be implemented by child class')
 
+
   def vectorised( self ) :
     return np.vectorize( self.at )
+
 
   def inverse_trf(self):
     if self.inv_cdf is None :
@@ -23,6 +26,7 @@ class BaseFunction(object) :
       cum_values[1:] = np.cumsum(hist*np.diff(bin_edges))
       self.inv_cdf = interpolate.interp1d(cum_values, bin_edges, kind='linear')
     return self.inv_cdf
+
 
   def sample_from( self, n ) :
     return self.inverse_trf()( np.random.rand(n) )

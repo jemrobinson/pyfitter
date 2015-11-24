@@ -1,2 +1,3 @@
 from base_fitter import BaseFitter
+from asymmetric_error_fitter import AsymmetricErrorFitter
 from symmetric_error_fitter import SymmetricErrorFitter
