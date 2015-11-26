@@ -1,17 +1,37 @@
 class BaseFitter(object) :
   '''Fit data with errors'''
   def __init__( self ) :
-    pass
-
-  def fit( self, *args ) :
-    raise NotImplementedError('Should be implemented by child class')
-
-
+    self._fit_parameters = []
+    self._covariance = []
+    self._chi_squared = 0
+    self._ndof = 0
 
 
+  def fit( self, function, initial_parameters, *args, **kwargs ) :
+    self._fit( function, initial_parameters, *args, **kwargs )
+    self._update_chisq_ndof( function )
 
 
-  # extracted_parameters, pcov = curve_fit( vec_func_Landau, x, y, sigma=ey, p0=[300, 30, 100] )
-  #
-  # def fit_function( self, **kwargs ) :
-  #   return np.vectorize( self.evaluate(**kwargs) )
+  def _fit( self, function, initial_parameters, *args, **kwargs ) :
+    raise NotImplementedError('Must be implemented by child classes')
+
+
+  def _update_chisq_ndof( self, function ) :
+    raise NotImplementedError('Must be implemented by child classes')
+
+
+  @property
+  def fit_parameters(self):
+    return self._fit_parameters
+
+  @property
+  def covariance(self):
+    return self._covariance
+
+  @property
+  def chi_squared(self):
+    return self._chi_squared
+
+  @property
+  def ndof(self):
+    return self._ndof

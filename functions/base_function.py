@@ -29,4 +29,4 @@ class BaseFunction(object) :
 
 
   def sample_from( self, n ) :
-    return self.inverse_trf()( np.random.rand(n) )
+    return [ self.inverse_trf()(r) for r in np.random.rand(n) ]
