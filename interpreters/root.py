@@ -15,16 +15,3 @@ def TH1_to_arrays( histogram, x_range=None, y_range=None ) :
     y.append( _y )
     ey.append( _ey )
   return [ x, y, ey ]
-
-    # x, x_low, x_high, y, ey = [], [], [], [], []
-    # if clip == None : clip = (histogram.GetBinLowEdge(0),histogram.GetBinLowEdge(histogram.GetNbinsX()+1))
-    # for bin in range(histogram.GetNbinsX()+1) :
-    #   if histogram.GetBinContent(bin) <= 0 : continue
-    #   if not ( range[0] <= histogram.GetBinCenter(bin) <= range[1] ) : continue
-    #   if exclude is not None and exclude[0] <= histogram.GetBinCenter(bin) <= exclude[1] : continue
-    #   x.append( histogram.GetBinCenter(bin) )
-    #   y.append( histogram.GetBinContent(bin) )
-    #   ey.append( histogram.GetBinError(bin) )
-    #   if exclude is None or exclude[0] <= histogram.GetBinCenter(bin) : x_low.append( x[-1] )
-    #   if exclude is None or exclude[1] >= histogram.GetBinCenter(bin) : x_high.append( x[-1] )
-    # return np.array(x), np.array(x_low), np.array(x_high), np.array(y), np.array(ey)
