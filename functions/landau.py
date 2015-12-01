@@ -10,8 +10,7 @@ class Landau(BaseFunction) :
     self.interpolation_range = [ (2*self.mpv,-6*self.mpv), (0,8*self.mpv) ][self.mpv>0]
 
 
-  def at( self, x, mpv=None, sigma=None, scale=None ) :
-    # return scale * math.exp( -(x-mpv)**2 / sigma )
+  def _call_function( self, x, mpv=None, sigma=None, scale=None ) :
     if mpv is None : mpv = self.mpv
     if sigma is None : sigma = self.sigma
     if scale is None : scale = self.scale

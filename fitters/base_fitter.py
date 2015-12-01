@@ -1,3 +1,6 @@
+# from ..functions import BaseFunction
+# import numpy as np
+
 class BaseFitter(object) :
   '''Fit data with errors'''
   def __init__( self ) :
@@ -7,7 +10,10 @@ class BaseFitter(object) :
     self._ndof = 0
 
 
-  def fit( self, function, initial_parameters, *args, **kwargs ) :
+  def fit( self, function, initial_parameters=None, *args, **kwargs ) :
+    # _function = function
+    # if isinstance( _function, BaseFunction ) : _function = np.vectorize( function )
+    # self._fit( _function, initial_parameters, *args, **kwargs )
     self._fit( function, initial_parameters, *args, **kwargs )
     self._update_chisq_ndof( function )
 

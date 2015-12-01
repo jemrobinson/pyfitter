@@ -23,4 +23,4 @@ class SymmetricErrorFitter(BaseFitter) :
   def _fit( self, function, initial_parameters ) :
     '''Inherited from base class: fit data with function'''
     x, y, ey = zip( *( (_x,_y,_ey) for _x, _y, _ey in zip(self.x,self.y,self.ey) if _ey != 0 ) )
-    self._fit_parameters, self._covariance = curve_fit( function, x, y, sigma=ey, p0=initial_parameters )
+    self._fit_parameters, self._covariance = curve_fit( function, x, y, sigma=ey, p0=initial_parameters, absolute_sigma=True )
