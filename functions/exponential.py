@@ -14,6 +14,4 @@ class exponential(BaseFunction) :
     if normalisation is None : normalisation = self.normalisation
     if decay_constant is None : decay_constant = self.decay_constant
     if offset is None : offset = self.offset
-    print 'params', normalisation, decay_constant, offset
-    print '->',x,'::',-decay_constant * x,'::',math.exp( -decay_constant * x),'::',normalisation * math.exp( -decay_constant * x) + offset
     return normalisation * math.exp( -decay_constant * x) + offset

@@ -1,4 +1,4 @@
-from scipy.stats import poisson
+import scipy
 
 def error( values ) :
   try :
@@ -11,4 +11,4 @@ def _error( value ) :
   '''Construct Poisson errors for known lambda'''
   # error: standard deviation -> sqrt(n)
   if value == 0 : return ( 0, 0 )
-  return ( poisson.std(value), poisson.std(value) )
+  return ( scipy.stats.poisson.std(value), scipy.stats.poisson.std(value) )

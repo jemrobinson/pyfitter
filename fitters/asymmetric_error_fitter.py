@@ -41,8 +41,14 @@ class AsymmetricErrorFitter(BaseFitter) :
     return partial( self.__total_chi_squared, function )
 
 
-  def loss_function_vectorised( self, parameters, function ) :
-    return [ self.__single_point_weighted_chi( x, y, ey_low, ey_high, function, parameters ) for x, y, ey_low, ey_high in zip(self.x, self.y, self.ey_low, self.ey_high) ]
+  def loss_function_vectorised( self, parameters, function, parameter_bounds ) :
+    chi_squared_array = [ self.__single_point_weighted_chi( x, y, ey_low, ey_high, function, parameters ) for x, y, ey_low, ey_high in zip(self.x, self.y, self.ey_low, self.ey_high) ]
+    # Return large value if out of bounds
+    if parameter_bounds is not None :
+      for parameter, bounds in zip( parameters, parameter_bounds ) :
+        if (bounds[0] is not None and parameter < bounds[0]) or (bounds[1] is not None and parameter > bounds[1]) :
+          chi_squared_array = [ 100 * _chi_squared for _chi_squared in chi_squared_array ]
+    return chi_squared_array
 
 
   def _fit( self, function, initial_parameters, parameter_bounds=None ) :
@@ -53,5 +59,9 @@ class AsymmetricErrorFitter(BaseFitter) :
     else :
       fit_result = scipy.optimize.minimize( self.loss_function_summed( function ), initial_parameters, jac=False, bounds=parameter_bounds )
     # Run leastsq with best fit parameters as input to estimate covariance
-    fit_result_lsq = scipy.optimize.leastsq( self.loss_function_vectorised, fit_result.x, args=(function), full_output=True )
+    fit_result_lsq = scipy.optimize.leastsq( self.loss_function_vectorised, fit_result.x, args=(function,parameter_bounds), full_output=True )
+    # if parameter_bounds is not None :
+    #   for parameter, bounds in zip( fit_result_lsq[0], parameter_bounds ) :
+    #     if (bounds[0] is not None and parameter < bounds[0]) or (bounds[1] is not None and parameter > bounds[1]) :
+    #       print 'Parameter',parameter,'outside',bounds,'!'
     self._fit_parameters, self._covariance = fit_result_lsq[0], fit_result_lsq[1]

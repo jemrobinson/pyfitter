@@ -7,6 +7,7 @@ def error( values ) :
     errors = _error(values)
   return errors
 
+
 def _error( value ) :
   '''Construct frequentist errors using Poisson distribution'''
   # up error: smallest lambda for which P(n<=nobs|lambda) < (1-0.68268...)/2 = 0.15865...
