@@ -10,7 +10,7 @@ class BaseFunction(object) :
 
   def __call__( self, *args, **kwargs ) :
     if isinstance( args[0], (int,float) ) : return self.pdf( *args, **kwargs )
-    return np.vectorize( self._call_function )( *args, **kwargs )
+    return np.vectorize( self.pdf )( *args, **kwargs )
 
 
   def pdf( self, *args, **kwargs ) :

@@ -2,22 +2,21 @@ from base_function import BaseFunction
 import math
 
 class ModifiedLandau(BaseFunction) :
-  def __init__( self, mu=0, Gamma=1, width_scale=1, scale=1 ) :
+  def __init__( self, normalisation=1, mu=0, Gamma=1, width_scale=1 ) :
     super(ModifiedLandau, self).__init__()
+    self.normalisation =  normalisation
     self.mu = mu
     self.Gamma = Gamma
     self.width_scale = width_scale
-    self.scale =  scale
     self.interpolation_range = [ (2*self.mu,-6*self.mu), (0,8*self.mu) ][self.mu>0]
 
 
-  def pdf( self, x, mu=None, Gamma=None, width_scale=None, scale=None ) :
+  def pdf( self, x, normalisation=None, mu=None, Gamma=None, width_scale=None,  ) :
+    if normalisation is None : normalisation = self.normalisation
     if mu is None : mu = self.mu
     if Gamma is None : Gamma = self.Gamma
     if width_scale is None : width_scale = self.width_scale
-    if scale is None : scale = self.scale
     width = Gamma + width_scale * x
-    if 299.9 < x < 300.1 : print 'modified_landau',x, mu, Gamma, width_scale, scale
     if width <= 0 : return 0
     lf = (x-mu)/width
     p1=(0.4259894875,-0.1249762550,0.03984243700,-0.006298287635,0.001511162253)
@@ -59,5 +58,4 @@ class ModifiedLandau(BaseFunction) :
     else :
       u   = 1/(lf-lf*math.log(lf)/(lf+1))
       output = u*u*(1+(a2[0]+a2[1]*u)*u)
-    if 299.9 < x < 300.1 : print '->', scale*output
-    return scale * output
+    return normalisation * output

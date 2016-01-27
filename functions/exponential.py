@@ -1,9 +1,9 @@
 from base_function import BaseFunction
 import math
 
-class exponential(BaseFunction) :
+class Exponential(BaseFunction) :
   def __init__( self, normalisation=1, decay_constant=1, offset=1 ) :
-    super(exponential, self).__init__()
+    super(Exponential, self).__init__()
     self.normalisation = normalisation
     self.decay_constant = decay_constant
     self.offset = offset
