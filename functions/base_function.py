@@ -9,11 +9,11 @@ class BaseFunction(object) :
 
 
   def __call__( self, *args, **kwargs ) :
-    if isinstance( args[0], (int,float) ) : return self._call_function( *args, **kwargs )
+    if isinstance( args[0], (int,float) ) : return self.pdf( *args, **kwargs )
     return np.vectorize( self._call_function )( *args, **kwargs )
 
 
-  def _call_function( self, *args, **kwargs ) :
+  def pdf( self, *args, **kwargs ) :
     raise NotImplementedError('Should be implemented by child class')
 
 

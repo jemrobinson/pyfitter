@@ -1,3 +1,5 @@
+import numpy as np
+
 def TH1_to_arrays( histogram, x_ranges=[], y_ranges=[] ) :
   '''Returns (x_points,y_points,ey_points) for specified x and y ranges'''
   x, y, ey = [], [], []
@@ -11,4 +13,4 @@ def TH1_to_arrays( histogram, x_ranges=[], y_ranges=[] ) :
     x.append( _x )
     y.append( _y )
     ey.append( _ey )
-  return [ x, y, ey ]
+  return [ np.array(x), np.array(y), np.array(ey) ]

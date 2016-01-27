@@ -4,6 +4,7 @@ class BaseFitter(object) :
   '''Fit data with errors'''
   def __init__( self ) :
     self._fit_parameters = []
+    self._function = None
     self._covariance = []
     self._fit_errors = []
     self._chi_squared = 0
@@ -11,18 +12,24 @@ class BaseFitter(object) :
 
 
   def fit( self, function, initial_parameters=None, *args, **kwargs ) :
-    self._fit( function, initial_parameters, *args, **kwargs )
-    self._update_chisq_ndof( function )
+    self._function = function
+    self._fit( initial_parameters, *args, **kwargs )
+    self._update_chisq_ndof()
     if self.covariance is not None :
       self._fit_errors = [ np.sqrt(self.covariance[idx][idx]) for idx in range(len(self.covariance)) ]
 
 
-  def _fit( self, function, initial_parameters, *args, **kwargs ) :
+  def _fit( self, initial_parameters, *args, **kwargs ) :
     raise NotImplementedError('Must be implemented by child classes')
 
 
-  def _update_chisq_ndof( self, function ) :
+  def _update_chisq_ndof( self ) :
     raise NotImplementedError('Must be implemented by child classes')
+
+
+  def y_predicted( self, parameters=None ) :
+    if parameters is None : parameters = self._fit_parameters
+    return np.array( [ self._function(_x,*parameters) for _x in self.x ] )
 
 
   @property

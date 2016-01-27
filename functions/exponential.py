@@ -10,7 +10,7 @@ class exponential(BaseFunction) :
     self.interpolation_range = ( decay_constant*1e-10, decay_constant*10 )
 
 
-  def _call_function( self, x, normalisation=None, decay_constant=None, offset=None ) :
+  def pdf( self, x, normalisation=None, decay_constant=None, offset=None ) :
     if normalisation is None : normalisation = self.normalisation
     if decay_constant is None : decay_constant = self.decay_constant
     if offset is None : offset = self.offset

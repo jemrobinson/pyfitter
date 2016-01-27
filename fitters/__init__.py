@@ -1,3 +1,4 @@
 from base_fitter import BaseFitter
 from asymmetric_error_fitter import AsymmetricErrorFitter
+from loglikelihood_fitter import LogLikelihoodFitter
 from symmetric_error_fitter import SymmetricErrorFitter
