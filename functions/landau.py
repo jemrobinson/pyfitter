@@ -1,19 +1,22 @@
 from base_function import BaseFunction
 import math
+import numpy as np
+import scipy
+
 
 class Landau(BaseFunction) :
-  def __init__( self, normalisation=1, mu=0, Gamma=1 ) :
-    super(Landau, self).__init__()
-    self.mu = mu
-    self.Gamma = Gamma
-    self.normalisation =  normalisation
-    self.interpolation_range = [ (2*self.mu,-6*self.mu), (0,8*self.mu) ][self.mu>0]
+  def __init__( self, **kwargs ) :
+    '''normalisation, mu, Gamma'''
+    super(Landau, self).__init__(**kwargs)
 
 
-  def pdf( self, x, normalisation=None, mu=None, Gamma=None,  ) :
-    if normalisation is None : normalisation = self.normalisation
-    if mu is None : mu = self.mu
-    if Gamma is None : Gamma = self.Gamma
+  def _pdf( self, x, normalisation, mu, Gamma ) :
+    integral = self._integrate_unnormalised_pdf( parameters=(mu, Gamma) )
+    if integral != 0 : return normalisation * self._unnormalised_pdf( x, mu, Gamma ) / integral
+    return 0
+
+
+  def _unnormalised_pdf( self, x, mu, Gamma ) :
     if Gamma <= 0 : return 0
     lf = (x-mu)/Gamma
     p1=(0.4259894875,-0.1249762550,0.03984243700,-0.006298287635,0.001511162253)
@@ -55,4 +58,5 @@ class Landau(BaseFunction) :
     else :
       u   = 1/(lf-lf*math.log(lf)/(lf+1))
       output = u*u*(1+(a2[0]+a2[1]*u)*u)
-    return normalisation * output
+    # print 'calling _unnormalised_pdf',x,mu,Gamma,'->',output
+    return output

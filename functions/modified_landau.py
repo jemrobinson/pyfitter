@@ -2,20 +2,18 @@ from base_function import BaseFunction
 import math
 
 class ModifiedLandau(BaseFunction) :
-  def __init__( self, normalisation=1, mu=0, Gamma=1, width_scale=1 ) :
-    super(ModifiedLandau, self).__init__()
-    self.normalisation =  normalisation
-    self.mu = mu
-    self.Gamma = Gamma
-    self.width_scale = width_scale
-    self.interpolation_range = [ (2*self.mu,-6*self.mu), (0,8*self.mu) ][self.mu>0]
+  def __init__( self, **kwargs ) :
+    '''normalisation=1, mu=0, Gamma=1, width_scale=1'''
+    super(ModifiedLandau, self).__init__(**kwargs)
 
 
-  def pdf( self, x, normalisation=None, mu=None, Gamma=None, width_scale=None,  ) :
-    if normalisation is None : normalisation = self.normalisation
-    if mu is None : mu = self.mu
-    if Gamma is None : Gamma = self.Gamma
-    if width_scale is None : width_scale = self.width_scale
+  def _pdf( self, x, normalisation, mu, Gamma, width_scale ) :
+    integral = self._integrate_unnormalised_pdf( parameters=(mu, Gamma, width_scale) )
+    if integral != 0 : return normalisation * self._unnormalised_pdf( x, mu, Gamma, width_scale ) / integral
+    return 0
+
+
+  def _unnormalised_pdf( self, x, mu, Gamma, width_scale ) :
     width = Gamma + width_scale * x
     if width <= 0 : return 0
     lf = (x-mu)/width
@@ -58,4 +56,4 @@ class ModifiedLandau(BaseFunction) :
     else :
       u   = 1/(lf-lf*math.log(lf)/(lf+1))
       output = u*u*(1+(a2[0]+a2[1]*u)*u)
-    return normalisation * output
+    return output
