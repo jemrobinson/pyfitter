@@ -37,12 +37,12 @@ class LogLikelihoodFitter(BaseFitter) :
     self._covariance = np.zeros( shape=(self.fit_parameters.size,self.fit_parameters.size) )
 
 
-  def _fit( self, initial_parameters, parameter_bounds=None ) :
+  def _fit( self, initial_parameters, parameter_bounds=None, verbose=False ) :
     '''Inherited from base class: fit data with function'''
     # Run minimiser with bounds
     if parameter_bounds == None :
-      fit_result = scipy.optimize.minimize( self.__negative_log_likelihood, initial_parameters, jac=False )
+      fit_result = scipy.optimize.minimize( self.__negative_log_likelihood, initial_parameters, jac=False, method='SLSQP', options={"disp":verbose} )
     else :
-      fit_result = scipy.optimize.minimize( self.__negative_log_likelihood, initial_parameters, jac=False, bounds=parameter_bounds )
+      fit_result = scipy.optimize.minimize( self.__negative_log_likelihood, initial_parameters, jac=False, method='SLSQP', options={"disp":verbose}, bounds=parameter_bounds )
     self._fit_parameters = fit_result.x
     self.__calculate_covariance()

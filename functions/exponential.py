@@ -1,17 +1,18 @@
 from base_function import BaseFunction
 import math
+import numpy as np
 
 class Exponential(BaseFunction) :
   def __init__( self, **kwargs ) :
-    ''', normalisation=1, decay_constant=1, offset='''
-    super(Exponential, self).__init__(**kwargs)
+    '''Parameters are normalisation and decay_constant'''
+    super(Exponential, self).__init__( default_x_range=(0,1e3), **kwargs )
 
 
-  def _pdf( self, x, normalisation, decay_constant, offset ) :
-    integral = self._integrate_unnormalised_pdf( parameters=(decay_constant, offset) )
-    if integral != 0 : return normalisation * self._unnormalised_pdf( x, decay_constant, offset ) / integral
+  def _pdf( self, x, normalisation, decay_constant ) :
+    integral = self._integrate_unnormalised_pdf( parameters=(decay_constant) )
+    if integral != 0 : return normalisation * self._unnormalised_pdf( x, decay_constant ) / integral
     return 0
 
 
-  def _unnormalised_pdf( self, x, decay_constant, offset ) :
-    return math.exp( -decay_constant * x) + offset
+  def _unnormalised_pdf( self, x, decay_constant ) :
+    return decay_constant * math.exp( -decay_constant * x )

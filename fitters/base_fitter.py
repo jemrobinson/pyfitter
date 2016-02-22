@@ -16,7 +16,7 @@ class BaseFitter(object) :
     self._fit( initial_parameters, *args, **kwargs )
     self._update_chisq_ndof()
     if self.covariance is not None :
-      self._fit_errors = [ np.sqrt(self.covariance[idx][idx]) for idx in range(len(self.covariance)) ]
+      self._fit_errors = np.sqrt(np.diag(self.covariance)) #[ np.sqrt(self.covariance[idx][idx]) for idx in range(len(self.covariance)) ]
 
 
   def _fit( self, initial_parameters, *args, **kwargs ) :
