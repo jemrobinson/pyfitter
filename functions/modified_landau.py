@@ -3,7 +3,7 @@ import math
 
 class ModifiedLandau(BaseFunction) :
   def __init__( self, **kwargs ) :
-    '''normalisation=1, mu=0, Gamma=1, width_scale=1'''
+    '''Parameters are normalisation, mu, Gamma and width_scale'''
     super(ModifiedLandau, self).__init__(**kwargs)
 
 
